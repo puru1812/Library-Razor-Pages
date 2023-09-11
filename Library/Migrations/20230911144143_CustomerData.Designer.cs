@@ -4,6 +4,7 @@ using Library.BooksData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Library.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    partial class LibraryContextModelSnapshot : ModelSnapshot
+    [Migration("20230911144143_CustomerData")]
+    partial class CustomerData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +69,7 @@ namespace Library.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IssuedBookId")
-                        .IsUnique()
-                        .HasFilter("[IssuedBookId] IS NOT NULL");
+                    b.HasIndex("IssuedBookId");
 
                     b.ToTable("Customer");
                 });
@@ -76,15 +77,10 @@ namespace Library.Migrations
             modelBuilder.Entity("Library.Modals.Customer", b =>
                 {
                     b.HasOne("Library.Modals.Book", "IssuedBook")
-                        .WithOne("CustomerId")
-                        .HasForeignKey("Library.Modals.Customer", "IssuedBookId");
+                        .WithMany()
+                        .HasForeignKey("IssuedBookId");
 
                     b.Navigation("IssuedBook");
-                });
-
-            modelBuilder.Entity("Library.Modals.Book", b =>
-                {
-                    b.Navigation("CustomerId");
                 });
 #pragma warning restore 612, 618
         }

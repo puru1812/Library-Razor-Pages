@@ -43,6 +43,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Book[0].Issued)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Book[0].CustomerId)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -61,6 +64,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Issued)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerId)
+                </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |

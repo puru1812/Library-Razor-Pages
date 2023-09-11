@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Library.Modals
 {
@@ -12,5 +13,9 @@ namespace Library.Modals
 
        
         public bool Issued { get; set; }
+
+        public Customer? CustomerId { get; set; }
+
+
     }
 }

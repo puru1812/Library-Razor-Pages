@@ -15,5 +15,7 @@ namespace Library.BooksData
         }
 
         public DbSet<Library.Modals.Book> Book { get; set; } = default!;
+
+        public DbSet<Library.Modals.Customer> Customer { get; set; } = default!;
     }
 }

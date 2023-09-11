@@ -19,10 +19,10 @@ namespace Library.Modals
                 }
 
                 // Look for any books.
-                if (context.Book.Any())
+                if (!context.Book.Any())
                 {
-                    return;   // DB has been seeded
-                }
+                   
+                
 
                 context.Book.AddRange(
                     new Book
@@ -40,7 +40,31 @@ namespace Library.Modals
                         Author = "James Clear",
                         Issued = false
                     }
+
                 );
+                }
+                if (context == null || context.Customer == null)
+                {
+                    throw new ArgumentNullException("Null LibraryCustomerContext");
+                }
+
+                if (!context.Customer.Any())
+                {
+
+
+
+                    context.Customer.AddRange(
+                        new Customer
+                        {
+                            Name="Cherry",
+                            DateOfBirth= DateTime.Now
+
+                        }
+
+                        
+
+                    );
+                }
                 context.SaveChanges();
             }
         }
