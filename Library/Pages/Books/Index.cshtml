@@ -65,7 +65,7 @@
                 @Html.DisplayFor(modelItem => item.Issued)
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CustomerId)
+                    @Html.DisplayFor(modelItem => item.CustomerKey.Name)
                 </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

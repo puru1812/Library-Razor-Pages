@@ -23,8 +23,14 @@ namespace Library.Pages.Books
         [BindProperty]
         public Book Book { get; set; } = default!;
 
+        [BindProperty(SupportsGet = true)]
+        public string? CustomerName { get; set; }
+        public SelectList? Customers { get; set; }
+
+        public IList<Customer> customers { get; set; } = default!;
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            
             if (id == null || _context.Book == null)
             {
                 return NotFound();
@@ -35,7 +41,15 @@ namespace Library.Pages.Books
             {
                 return NotFound();
             }
+          
             Book = book;
+            if (_context.Customer != null)
+            {
+                IQueryable<string> customerQuery = from s in _context.Customer
+                                                   orderby s.Name
+                                                   select s.Name;
+                Customers = new SelectList(await customerQuery.ToListAsync());
+            }
             return Page();
         }
 
@@ -47,6 +61,16 @@ namespace Library.Pages.Books
             {
                 return Page();
             }
+
+            var finalList = _context.Customer.Where(x => x.Name.Contains(CustomerName));
+
+
+            customers = await finalList.ToListAsync();
+
+            Book.CustomerKey = customers[0];
+
+            customers[0].IssuedBook= Book;
+            _context.Attach(customers[0]).State = EntityState.Modified;
 
             _context.Attach(Book).State = EntityState.Modified;
 
