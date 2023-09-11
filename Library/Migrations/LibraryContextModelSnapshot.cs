@@ -66,9 +66,7 @@ namespace Library.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("IssuedBookId")
-                        .IsUnique()
-                        .HasFilter("[IssuedBookId] IS NOT NULL");
+                    b.HasIndex("IssuedBookId");
 
                     b.ToTable("Customer");
                 });
@@ -76,15 +74,10 @@ namespace Library.Migrations
             modelBuilder.Entity("Library.Modals.Customer", b =>
                 {
                     b.HasOne("Library.Modals.Book", "IssuedBook")
-                        .WithOne("CustomerId")
-                        .HasForeignKey("Library.Modals.Customer", "IssuedBookId");
+                        .WithMany()
+                        .HasForeignKey("IssuedBookId");
 
                     b.Navigation("IssuedBook");
-                });
-
-            modelBuilder.Entity("Library.Modals.Book", b =>
-                {
-                    b.Navigation("CustomerId");
                 });
 #pragma warning restore 612, 618
         }

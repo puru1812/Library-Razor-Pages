@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Library.BooksData;
 using Library.Modals;
 using Microsoft.EntityFrameworkCore;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Library.Pages.Customers
 {
@@ -19,8 +20,11 @@ namespace Library.Pages.Customers
         {
             _context = context;
         }
-
+        [BindProperty(SupportsGet = true)]
+        public string? BookName { get; set; }
         public SelectList? Books { get; set; }
+
+        public IList<Book> books { get; set; } = default!;
         public async Task<IActionResult> OnGetAsync()
         {
             if (_context.Book != null)
@@ -46,7 +50,14 @@ namespace Library.Pages.Customers
             {
                 return Page();
             }
+            var finalList = _context.Book.Where(x => x.Title.Contains(BookName));
 
+
+            books = await finalList.ToListAsync();
+
+            Customer.IssuedBook = books[0];
+
+            books[0].Issued = true;
             _context.Customer.Add(Customer);
             await _context.SaveChangesAsync();
 

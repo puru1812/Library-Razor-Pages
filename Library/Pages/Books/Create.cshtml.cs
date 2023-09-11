@@ -20,25 +20,16 @@ namespace Library.Pages.Books
         {
             _context = context;
         }
-        public SelectList? Customers { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            if (_context.Customer != null)
-            {
-                IQueryable<string> customerQuery = from s in _context.Customer
-                                                   orderby s.Name
-                                                   select s.Name;
-                Customers = new SelectList(await customerQuery.ToListAsync());
-            }
+            
             return Page();
         }
 
         [BindProperty]
         public Book Book { get; set; } = default!;
 
-        [BindProperty(SupportsGet = true)]
-        public string? CustomerName { get; set; }
-        public IList<Customer> customers { get; set; } = default!;
+     
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
 
@@ -50,15 +41,6 @@ namespace Library.Pages.Books
             }
 
 
-        
-            var finalList = _context.Customer.Where(x => x.Name.Contains(CustomerName) );
-
-
-            customers=await finalList.ToListAsync();
-
-            Book.CustomerKey = customers[0];
-            customers[0].IssuedBook = Book;
-            _context.Attach(customers[0]).State = EntityState.Modified;
             _context.Book.Add(Book);
             await _context.SaveChangesAsync();
 

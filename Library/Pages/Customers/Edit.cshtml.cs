@@ -25,6 +25,9 @@ namespace Library.Pages.Customers
         public Customer Customer { get; set; } = default!;
 
         public SelectList? Books { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string? BookName { get; set; }
+        public IList<Book> books { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -58,8 +61,19 @@ namespace Library.Pages.Customers
             {
                 return Page();
             }
-           
-     
+            var finalList = _context.Book.Where(x => x.Title.Contains(BookName));
+
+
+            books = await finalList.ToListAsync();
+
+            Customer.IssuedBook = books[0];
+
+            books[0].Issued = true;
+            _context.Attach(books[0]).State = EntityState.Modified;
+
+        
+
+
             _context.Attach(Customer).State = EntityState.Modified;
 
             try

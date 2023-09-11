@@ -20,12 +20,14 @@ namespace Library.Pages.Customers
         }
 
         public IList<Customer> Customer { get;set; } = default!;
+        public IList<Book> Book { get; set; } = default!;
 
         public async Task OnGetAsync()
         {
             if (_context.Customer != null)
             {
                 Customer = await _context.Customer.ToListAsync();
+                Book = await _context.Book.ToListAsync();
             }
         }
     }

@@ -14,8 +14,6 @@ namespace Library.Modals
        
         public bool Issued { get; set; }
 
-        public Customer? CustomerId { get; set; }
-
 
     }
 }

@@ -19,7 +19,8 @@ namespace Library.Pages.Customers
             _context = context;
         }
 
-      public Customer Customer { get; set; } = default!; 
+      public Customer Customer { get; set; } = default!;
+        public IList<Book> Book { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -27,7 +28,7 @@ namespace Library.Pages.Customers
             {
                 return NotFound();
             }
-
+            Book = await _context.Book.ToListAsync();
             var customer = await _context.Customer.FirstOrDefaultAsync(m => m.Id == id);
             if (customer == null)
             {
